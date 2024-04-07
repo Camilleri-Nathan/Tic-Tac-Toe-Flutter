@@ -1,40 +1,36 @@
 import 'package:flutter/material.dart';
 
+// Custom widget for displaying the Tic-Tac-Toe game board.
 class GameBoard extends StatelessWidget {
-  const GameBoard({super.key});
+  final List<String?> boardState; // The current state of each tile ('X', 'O', or null for empty).
+  final Function(int index) onTileTapped; // Callback for tile tap events.
+
+  const GameBoard({super.key, required this.boardState, required this.onTileTapped});
 
   @override
   Widget build(BuildContext context) {
+    // GridView.builder creates a 3x3 grid.
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemCount: 9,
       itemBuilder: (context, index) {
-        return GridTile(
+        // InkWell wraps each tile for tap detection.
+        return InkWell(
+          onTap: () => onTileTapped(index),
           child: Container(
-            margin: const EdgeInsets.all(4.0), // Ajoute un peu d'espace entre les cases
+            margin: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
-              color: Colors.blue[100], // Couleur de fond de chaque case
-              border: Border.all(color: Colors.blue, width: 2.0), // Bordure des cases
-              borderRadius: BorderRadius.circular(8), // Coins arrondis
-              boxShadow: [
-                // Ajoute une ombre pour un effet 3D léger
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3),
-                ),
-              ],
+              color: Colors.blue[100],
+              border: Border.all(color: Colors.blue, width: 2.0),
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 2, blurRadius: 5, offset: const Offset(0, 3))],
             ),
-            child: const Center(
-                // TODO LOGIC X O
-                ),
+            // Display the player's mark if present.
+            child: Center(child: Text(boardState[index] ?? '', style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
           ),
         );
       },
-      physics: const NeverScrollableScrollPhysics(), // Ajoutez ceci pour empêcher le défilement
+      physics: const NeverScrollableScrollPhysics(), // Prevent grid scrolling.
     );
   }
 }
