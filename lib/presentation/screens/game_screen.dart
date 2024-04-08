@@ -22,19 +22,17 @@ class GameScreenState extends State<GameScreen> {
       return;
     }
 
-    if (_board.tiles[index] == null) {
-      setState(() {
-        _board.makeMove(index, _currentPlayer); // Attempts to place the current player's mark on the board.
-        var winner = _board.checkWinner();
-        if (winner != null) {
-          _winner = winner;
-        } else if (_board.isFull) {
-          _isDraw = true;
-        } else {
-          _currentPlayer = _currentPlayer == 'X' ? 'O' : 'X'; // Switches the current player.
-        }
-      });
-    }
+    setState(() {
+      _board.makeMove(index, _currentPlayer); // Attempts to place the current player's mark on the board.
+      var winner = _board.checkWinner();
+      if (winner != null) {
+        _winner = winner;
+      } else if (_board.isFull) {
+        _isDraw = true;
+      } else {
+        _currentPlayer = _currentPlayer == 'X' ? 'O' : 'X'; // Switches the current player.
+      }
+    });
   }
 
   void _resetBoard() {
@@ -44,6 +42,67 @@ class GameScreenState extends State<GameScreen> {
       _winner = null;
       _isDraw = false;
     });
+  }
+
+  Widget _buildPlayerTurnWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.deepPurpleAccent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          "Tour du joueur : $_currentPlayer",
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                offset: Offset(2.0, 2.0),
+                blurRadius: 3.0,
+                color: Color.fromARGB(125, 0, 0, 0),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildGameResultWidgets() {
+    return [
+      const SizedBox(height: 20),
+      Text(
+        _isDraw ? "Match nul !" : 'Joueur $_winner a gagné !',
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.yellow,
+          shadows: [
+            Shadow(
+              blurRadius: 10.0,
+              color: Colors.black,
+              offset: Offset(5.0, 5.0),
+            ),
+          ],
+        ),
+      ).animate().scale(duration: 500.ms, curve: Curves.elasticOut).fadeIn(duration: 500.ms),
+      const SizedBox(height: 10),
+      ElevatedButton(
+        onPressed: _resetBoard,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        child: const Text("Rejouer"),
+      ),
+      const SizedBox(height: 20),
+    ];
   }
 
   @override
@@ -64,31 +123,7 @@ class GameScreenState extends State<GameScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.deepPurpleAccent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  "Tour du joueur : $_currentPlayer",
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(
-                        offset: Offset(2.0, 2.0),
-                        blurRadius: 3.0,
-                        color: Color.fromARGB(125, 0, 0, 0),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildPlayerTurnWidget(),
             AspectRatio(
               aspectRatio: 1,
               child: GameBoard(
@@ -96,36 +131,7 @@ class GameScreenState extends State<GameScreen> {
                 onTileTapped: _handleTileTap, // Passes the tile tap handler to the GameBoard.
               ),
             ),
-            if (_winner != null || _isDraw) ...[
-              const SizedBox(height: 20),
-              Text(
-                _isDraw ? "Match nul !" : 'Joueur $_winner a gagné !',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.yellow,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 10.0,
-                      color: Colors.black,
-                      offset: Offset(5.0, 5.0),
-                    ),
-                  ],
-                ),
-              ).animate().scale(duration: 500.ms, curve: Curves.elasticOut).fadeIn(duration: 500.ms),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _resetBoard,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                child: const Text("Rejouer"),
-              ),
-              const SizedBox(height: 20),
-            ],
+            if (_winner != null || _isDraw) ..._buildGameResultWidgets(),
           ],
         ),
       ),
