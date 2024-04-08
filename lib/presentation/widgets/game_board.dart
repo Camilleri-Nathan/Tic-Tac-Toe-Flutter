@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class GameBoard extends StatelessWidget {
   final List<String?> boardState; // The current state of each tile ('X', 'O', or null for empty).
-  final Function(int index) onTileTapped;  // Callback for tile tap events.
+  final Function(int index) onTileTapped; // Callback for tile tap events.
 
   const GameBoard({super.key, required this.boardState, required this.onTileTapped});
 
@@ -21,7 +21,7 @@ class GameBoard extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemCount: 9,
       itemBuilder: (context, index) => _buildGameTile(context, index),
-      physics: const NeverScrollableScrollPhysics(),  // Prevent grid scrolling.
+      physics: const NeverScrollableScrollPhysics(), // Prevent grid scrolling.
     );
   }
 

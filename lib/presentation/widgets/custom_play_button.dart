@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// A customizable play button widget.
 class CustomPlayButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;

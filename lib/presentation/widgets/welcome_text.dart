@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// A stylized text widget for displaying welcome messages.
 class WelcomeText extends StatelessWidget {
   final String text;
 

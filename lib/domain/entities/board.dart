@@ -1,4 +1,3 @@
-// Defines the Board class representing the game state for a Tic-Tac-Toe game.
 class Board {
   // Initializes the game board with 9 null entries, representing empty tiles.
   List<String?> tiles = List.filled(9, null);
@@ -26,14 +25,11 @@ class Board {
     // Loops through all winning patterns to see if any apply to the current board.
     for (var pattern in winPatterns) {
       if (pattern.every((index) => tiles[index] != null && tiles[index] == tiles[pattern[0]])) {
-        // A winning pattern is found.
         return tiles[pattern[0]]; // Returns the winner ('X' or 'O').
       }
     }
     return null; // No winner found.
   }
 
-  // Checks if the board is full (i.e., no empty tiles left).
-  // Useful for determining if the game is a draw.
   bool get isFull => !tiles.contains(null);
 }
