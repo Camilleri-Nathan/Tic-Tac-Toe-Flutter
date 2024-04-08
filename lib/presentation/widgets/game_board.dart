@@ -30,7 +30,7 @@ class GameBoard extends StatelessWidget {
     return InkWell(
       onTap: () => onTileTapped(index),
       child: Container(
-        margin: const EdgeInsets.all(4.0),
+        margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.blue[100],
           border: Border.all(color: Colors.blue, width: 2.0),
