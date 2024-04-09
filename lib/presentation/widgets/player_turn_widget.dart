@@ -13,7 +13,7 @@ class PlayerTurnWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: Colors.deepPurpleAccent,
           borderRadius: BorderRadius.circular(10),

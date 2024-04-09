@@ -17,6 +17,7 @@ class GameScreenState extends State<GameScreen> {
   String _currentPlayer = 'X';
   String? _winner;
   bool _isDraw = false;
+  List<int> winningTiles = [];
 
   void _handleTileTap(int index) {
     if (_winner != null || _isDraw || _board.tiles[index] != null) {
@@ -25,9 +26,10 @@ class GameScreenState extends State<GameScreen> {
 
     setState(() {
       _board.makeMove(index, _currentPlayer);
-      var winner = _board.checkWinner();
-      if (winner != null) {
-        _winner = winner;
+      var result = _board.checkWinner();
+      _winner = result['winner'];
+      if (_winner != null) {
+        winningTiles = List<int>.from(result['winningTiles']);
       } else if (_board.isFull) {
         _isDraw = true;
       } else {
@@ -42,6 +44,7 @@ class GameScreenState extends State<GameScreen> {
       _currentPlayer = 'X';
       _winner = null;
       _isDraw = false;
+      winningTiles = [];
     });
   }
 
@@ -50,55 +53,37 @@ class GameScreenState extends State<GameScreen> {
     return Scaffold(
       body: AnimatedBackground(
         child: SafeArea(
-          child: LayoutBuilder(
-            // Use LayoutBuilder for more layout control
-            builder: (context, constraints) {
-              // Dynamically calculate spacings based on available height
-              double totalHeight = constraints.maxHeight;
-              double topPadding = totalHeight * 0.05; // 5% of the total space at the top
-              double betweenElements = totalHeight * 0.02; // 2% space between elements
-
-              return SingleChildScrollView(
-                // Ensure everything is accessible on small screens
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                  ),
-                  child: IntrinsicHeight(
-                    // To ensure the content takes up at least the available height
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Evenly spaced
-                      children: [
-                        SizedBox(height: topPadding), // Space above the player turn widget
-                        PlayerTurnWidget(currentPlayer: _currentPlayer),
-                        SizedBox(height: betweenElements), // Space between player turn widget and game board
-                        Expanded(
-                          child: Center(
-                            child: AspectRatio(
-                              aspectRatio: 1, // Keep the game board square
-                              child: GameBoard(
-                                boardState: _board.tiles,
-                                onTileTapped: _handleTileTap,
-                              ),
-                            ),
-                          ),
-                        ),
-                        if (_winner != null || _isDraw) SizedBox(height: betweenElements), // Space before the result
-                        if (_winner != null || _isDraw) // Display the game results below the board
-                          GameResultWidget(
-                            resultMessage: _isDraw ? "It's a draw!" : 'Player $_winner won!',
-                            onReset: _resetBoard,
-                          ),
-                        SizedBox(height: topPadding), // Symmetrical space at the bottom
-                      ],
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PlayerTurnWidget(currentPlayer: _currentPlayer),
+                Expanded(
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: GameBoard(
+                        boardState: _board.tiles,
+                        onTileTapped: _handleTileTap,
+                        winningTiles: winningTiles,
+                      ),
                     ),
                   ),
                 ),
-              );
-            },
+                Visibility(
+                  visible: _winner != null || _isDraw,
+                  child: GameResultWidget(
+                    resultMessage: _isDraw ? "It's a draw!" : 'Player $_winner won!',
+                    onReset: _resetBoard,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
 }

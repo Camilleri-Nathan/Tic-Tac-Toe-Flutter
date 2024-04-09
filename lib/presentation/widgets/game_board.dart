@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class GameBoard extends StatelessWidget {
   final List<String?> boardState; // The current state of each tile ('X', 'O', or null for empty).
   final Function(int index) onTileTapped; // Callback for tile tap events.
+  final List<int> winningTiles; // Add this line to accept winning tiles.
 
-  const GameBoard({super.key, required this.boardState, required this.onTileTapped});
+  const GameBoard({
+    super.key,
+    required this.boardState,
+    required this.onTileTapped,
+    this.winningTiles = const [], // Initialize with an empty list if not provided.
+  });
 
   TextStyle getSymbolStyle(String? symbol) {
     return TextStyle(
@@ -26,13 +32,15 @@ class GameBoard extends StatelessWidget {
   }
 
   Widget _buildGameTile(BuildContext context, int index) {
+    bool isWinningTile = winningTiles.contains(index); // Check if this tile is a winning tile.
+
     // InkWell wraps each tile for tap detection.
     return InkWell(
       onTap: () => onTileTapped(index),
       child: Container(
         margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: isWinningTile ? Colors.yellow : Colors.blue[100], // Highlight winning tiles in yellow.
           border: Border.all(color: Colors.blue, width: 2.0),
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
