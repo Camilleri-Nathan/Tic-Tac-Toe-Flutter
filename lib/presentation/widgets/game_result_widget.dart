@@ -20,7 +20,7 @@ class GameResultWidget extends StatelessWidget {
         const SizedBox(height: 20),
         CustomPlayButton(
           onPressed: onReset,
-          label: "Rejouer",
+          label: "Play Again",
         ),
       ],
     );

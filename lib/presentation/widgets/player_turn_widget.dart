@@ -19,7 +19,7 @@ class PlayerTurnWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
-          "Tour du joueur : $currentPlayer",
+          "Player's turn : $currentPlayer",
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,

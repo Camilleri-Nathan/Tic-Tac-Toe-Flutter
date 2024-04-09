@@ -21,7 +21,6 @@ class AnimatedBackgroundState extends State<AnimatedBackground> with SingleTicke
       vsync: this,
     )..repeat(reverse: true);
 
-    // Define the color transition from blue to purple.
     _colorAnimation = ColorTween(
       begin: Colors.blue,
       end: Colors.purple,
@@ -30,7 +29,7 @@ class AnimatedBackgroundState extends State<AnimatedBackground> with SingleTicke
 
   @override
   void dispose() {
-    _controller.dispose(); // Dispose of the controller when the widget is removed.
+    _controller.dispose();
     super.dispose();
   }
 
@@ -48,7 +47,7 @@ class AnimatedBackgroundState extends State<AnimatedBackground> with SingleTicke
               end: Alignment.bottomLeft,
               colors: [
                 _colorAnimation.value ?? Colors.blue, // Fallback to blue if null.
-                _colorAnimation.value?.withOpacity(0.5) ?? Colors.purple, // Make the end color slightly transparent.
+                _colorAnimation.value?.withOpacity(0.5) ?? Colors.purple,
               ],
             ),
           ),

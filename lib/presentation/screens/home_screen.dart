@@ -14,21 +14,19 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // Utilisation du widget AnimatedBackground pour l'arrière-plan animé
     return Scaffold(
       body: AnimatedBackground(
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const WelcomeText(text: 'Bienvenue au Tic Tac Toe'), // Texte de bienvenue
-              const SizedBox(height: 20), // Espace entre le texte et le bouton
+              const WelcomeText(text: 'Welcome to Tic Tac Toe'),
+              const SizedBox(height: 20),
               CustomPlayButton(
                 onPressed: () {
-                  // Navigation vers GameScreen lorsque le bouton est pressé
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const GameScreen()));
                 },
-                label: 'Jouer', // Texte du bouton
+                label: 'Play',
               ),
             ],
           ),

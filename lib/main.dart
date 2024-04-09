@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe_flutter/presentation/screens/home_screen.dart'; // Assurez-vous que le chemin est correct
+import 'package:tic_tac_toe_flutter/presentation/screens/home_screen.dart';
 
 void main() {
   runApp(const TicTacToeApp());
@@ -15,7 +15,7 @@ class TicTacToeApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(), // Changé à HomeScreen ici
+      home: const HomeScreen(),
     );
   }
 }

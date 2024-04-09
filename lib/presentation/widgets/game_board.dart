@@ -32,7 +32,7 @@ class GameBoard extends StatelessWidget {
   }
 
   Widget _buildGameTile(BuildContext context, int index) {
-    bool isWinningTile = winningTiles.contains(index); // Check if this tile is a winning tile.
+    bool isWinningTile = winningTiles.contains(index);
 
     // InkWell wraps each tile for tap detection.
     return InkWell(

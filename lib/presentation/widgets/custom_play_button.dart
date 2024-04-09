@@ -8,7 +8,7 @@ class CustomPlayButton extends StatelessWidget {
   const CustomPlayButton({
     super.key,
     required this.onPressed,
-    this.label = "Jouer",
+    this.label = "Play",
   });
 
   @override
